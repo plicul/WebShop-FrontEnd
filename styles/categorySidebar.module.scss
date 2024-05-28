@@ -1,0 +1,21 @@
+.sidebar {
+    width: 8vw;
+    background-color: #ffffff;
+    color: #333;
+    padding: 20px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.sidebar .MuiTreeView-root {
+    width: 100%;
+}
+
+.sidebar .MuiTreeItem-label {
+    font-size: 0.9rem;
+    padding: 5px;
+}
+
+.sidebar .MuiTreeItem-label:hover {
+    background-color: #f0f0f0;
+}
