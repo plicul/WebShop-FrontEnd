@@ -1,0 +1,178 @@
+$background-paper: #ffffff;
+$box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+$text-primary: #333333;
+$border-color: #e0e0e0;
+$scrollbar-thumb-color: #757575;
+$scrollbar-track-color: #f0f0f0;
+$primary-color: #1976d2;
+
+.container {
+  margin-top: 2rem;
+  padding: 2rem;
+  background-color: $background-paper;
+  border-radius: 8px;
+  box-shadow: $box-shadow;
+  max-height: 80vh;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $scrollbar-thumb-color;
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: $scrollbar-track-color;
+    border-radius: 4px;
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  border: none;
+  box-shadow: none;
+
+  &.normal {
+    .image {
+      width: 100%;
+      max-width: 300px;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+    }
+
+    .title {
+      margin-bottom: 1rem;
+      font-size: 2rem;
+      font-weight: 600;
+      color: $text-primary;
+      text-align: center;
+    }
+
+    .categoryChip {
+      margin-bottom: 1rem;
+    }
+
+    .tabContent {
+      width: 100%;
+      padding: 1rem;
+    }
+
+    .priceSection {
+      margin-top: 1rem;
+      margin-bottom: 2rem;
+      border-top: 1px solid $border-color;
+      border-bottom: 1px solid $border-color;
+      padding: 1rem 0;
+      width: 100%;
+      text-align: center;
+    }
+
+    .price {
+      font-size: 2rem;
+      font-weight: bold;
+      color: $text-primary;
+    }
+
+    .lowestPrice {
+      font-size: 1rem;
+      color: $text-primary;
+    }
+
+    .buttonGroup {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .quantityInput {
+      width: 3rem;
+      text-align: center;
+    }
+
+    .button {
+      justify-self: flex-start;
+      background-color: $primary-color;
+      color: #ffffff;
+
+      &:hover {
+        background-color: darken($primary-color, 10%);
+      }
+    }
+  }
+
+  &.small {
+    .image {
+      width: 100%;
+      max-width: 150px;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .title {
+      margin-bottom: 0.5rem;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: $text-primary;
+      text-align: center;
+    }
+
+    .categoryChip {
+      margin-bottom: 0.5rem;
+    }
+
+    .tabContent {
+      width: 100%;
+      padding: 0.5rem;
+    }
+
+    .priceSection {
+      margin-top: 0.5rem;
+      margin-bottom: 1rem;
+      border-top: 1px solid $border-color;
+      border-bottom: 1px solid $border-color;
+      padding: 0.5rem 0;
+      width: 100%;
+      text-align: center;
+    }
+
+    .price {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: $text-primary;
+    }
+
+    .lowestPrice {
+      font-size: 0.75rem;
+      color: $text-primary;
+    }
+
+    .buttonGroup {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .quantityInput {
+      width: 2rem;
+      text-align: center;
+    }
+
+    .button {
+      justify-self: flex-start;
+      background-color: $primary-color;
+      color: #ffffff;
+
+      &:hover {
+        background-color: darken($primary-color, 10%);
+      }
+    }
+  }
+}

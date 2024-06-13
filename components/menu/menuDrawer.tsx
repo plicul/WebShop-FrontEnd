@@ -7,33 +7,42 @@ import {MenuItem} from "@/consts/types";
 
 interface MenuDrawerProps {
     className? : string
-    drawerOpen : boolean
-    handleDrawerToggle: () => void
     menuListParam: MenuItem[]
 }
 
-const MenuDrawer: React.FC<MenuDrawerProps> = ({ className, drawerOpen,handleDrawerToggle,menuListParam }) => {
+const MenuDrawer: React.FC<MenuDrawerProps> = ({ className,menuListParam }) => {
+    const handleDrawerToggle = () => {
+        setDrawerOpen(!drawerOpen);
+    };
+
+    const [drawerOpen, setDrawerOpen] = useState(false);
 
     const [menuList, setMenuList] = useState<MenuItem[]>(menuListParam)
 
     return (
-        <Drawer anchor="left" open={drawerOpen} onClose={handleDrawerToggle}>
-            <div className={styles.drawerHeader}>
-                <IconButton onClick={handleDrawerToggle}>
-                    <MenuOutlined />
-                </IconButton>
-            </div>
-            <Divider />
-            <List>
-                {menuList.map((value, index) => (
-                    <ListItem key={index}>
-                        <Link style={{ textDecoration: 'none', color:"inherit" }} href={`${value.routePath}`}>
-                            {value.name}
-                        </Link>
-                    </ListItem>
-                ))}
-            </List>
-        </Drawer>
+        <>
+            <IconButton color="inherit" aria-label="menu" onClick={() => handleDrawerToggle ? handleDrawerToggle() : ""}>
+                <MenuOutlined />
+            </IconButton>
+            <Drawer anchor="left" open={drawerOpen} onClose={handleDrawerToggle}>
+                <div className={styles.drawerHeader}>
+                    <IconButton onClick={handleDrawerToggle}>
+                        <MenuOutlined />
+                    </IconButton>
+                </div>
+                <Divider />
+                <List>
+                    {menuList.map((value, index) => (
+                        <ListItem key={index}>
+                            <Link style={{ textDecoration: 'none', color:"inherit" }} href={`${value.routePath}`}>
+                                {value.name}
+                            </Link>
+                        </ListItem>
+                    ))}
+                </List>
+            </Drawer>
+        </>
+
     );
 };
 export default MenuDrawer

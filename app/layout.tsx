@@ -8,45 +8,13 @@ import CategorySidebar from "@/components/menu/categorySidebar";
 import Toolbar from "@/components/menu/toolbar";
 import styles from '../styles/layout.module.scss';
 import MenuDrawer from "@/components/menu/menuDrawer";
+import {getMenuList} from "@/lib/DataFetchUtilsServer";
 
 const inter = Inter({   weight: '400',
     subsets: ['latin'],
     display: 'swap', })
 
-async function getCategories() {
-    const url: string = API_BASE + "/item-category/tree"
-    const categories: CategoryComposite[] | undefined = await fetch(API_BASE + "/item-category/tree", {
-        method: "GET"
-    }).then(data => data.json())
-        .then((categories: CategoryComposite[]) => {
-            return categories
-        })
-        .catch(error => {
-        console.log("error" + error + API_BASE)
-        return undefined
-    })
 
-
-    return categories
-}
-async function getMenuList() {
-    const menuList: MenuItem[] | undefined = await fetch(API_BASE + "/menu/", {
-        method: "GET",
-        cache: "no-cache"
-    }).then(data => data.json())
-        .then((menuItems: MenuItem[]) => {
-            return menuItems
-        })
-        .catch(error => {
-            console.log("error" + error + API_BASE)
-            return undefined
-        })
-
-
-    return menuList
-
-
-}
 
 export default async function RootLayout({
                                        children,
