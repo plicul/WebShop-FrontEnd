@@ -1,5 +1,5 @@
 'use client'
-import {SyntheticEvent, useEffect, useState } from 'react';
+import {SyntheticEvent, useContext, useEffect, useState} from 'react';
 import { GetServerSideProps } from 'next';
 import { CategoryComponent, CategoryComposite } from '../../consts/types';
 import Box from '@mui/material/Box';
@@ -9,6 +9,8 @@ import { TreeViewBaseItem } from '@mui/x-tree-view/models';
 import styles from '../../styles/categorySidebar.module.scss';
 
 import Typography from '@mui/material/Typography';
+import {CategoryContext} from "@/components/category/categoryContext";
+import {Drawer} from "@mui/material";
 interface SidebarProps {
     initialCategories: CategoryComposite[];
     className?: string
@@ -31,6 +33,9 @@ const transformCategoryToTreeViewItem = (category: CategoryComponent): TreeViewB
 };
 
 const CategorySidebar: React.FC<SidebarProps> = ({ initialCategories,className }) => {
+
+    const categoryContext = useContext(CategoryContext)
+
     const [categories, setCategories] = useState<CategoryComposite[]>(initialCategories);
     useEffect(() => {
         if (items.length === 0) {
@@ -42,6 +47,11 @@ const CategorySidebar: React.FC<SidebarProps> = ({ initialCategories,className }
     const [items, setItems] = useState<TreeViewBaseItem[]>([])
     const [lastSelectedItem, setLastSelectedItem] = useState<string | null>(null);
 
+    useEffect(() => {
+        if(lastSelectedItem != null)
+            categoryContext?.setSelectedCategory(lastSelectedItem)
+    }, [lastSelectedItem]);
+
     const handleItemSelectionToggle = (
         event: SyntheticEvent,
         itemId: string,
@@ -51,16 +61,38 @@ const CategorySidebar: React.FC<SidebarProps> = ({ initialCategories,className }
             setLastSelectedItem(itemId);
         }
     };
-
+    {/*
+    <Stack className={styles.sidebar} spacing={2}>
+        <Box sx={{flex: "1 1 auto"}}>
+            <RichTreeView
+                items={items}
+                onItemSelectionToggle={handleItemSelectionToggle}
+            />
+        </Box>
+    </Stack>
+    */}
     return (
-        <Stack className={styles.sidebar} spacing={2}>
+        <Drawer anchor="left" variant={"permanent"} open={true}
+                PaperProps={{
+                    sx: {
+                        height: 'calc(100% - 50px)',
+                        top: 50,
+                    },
+                }}
+                sx={{
+                    width: "8.6vw",
+                    flexShrink: 0,
+                    [`& .MuiDrawer-paper`]: { width: "8.6vw", boxSizing: 'border-box' },
+                }}
+        >
             <Box sx={{ flex: "1 1 auto" }}>
                 <RichTreeView
                     items={items}
                     onItemSelectionToggle={handleItemSelectionToggle}
                 />
             </Box>
-        </Stack>
+        </Drawer>
+
     );
 };
 export default CategorySidebar

@@ -4,7 +4,7 @@ import Providers from "@/components/providers";
 import {ReactNode} from "react";
 import {API_BASE} from "@/consts/global";
 import {CategoryComposite, MenuItem} from "@/consts/types";
-import CategorySidebar from "@/components/menu/categorySidebar";
+import CategorySidebar from "@/components/category/categorySidebar";
 import Toolbar from "@/components/menu/toolbar";
 import styles from '../styles/layout.module.scss';
 import MenuDrawer from "@/components/menu/menuDrawer";
@@ -21,10 +21,6 @@ export default async function RootLayout({
                                    }: {
     children: ReactNode
 }) {
-    //TODO OSTALO OD SIDEBAR, PREMJESTI KADA NAPRAVIS PAGE
-    // const initialCategories = await getCategories()
-
-
     const menuListParam = await getMenuList()
 
     return (
@@ -45,8 +41,6 @@ export default async function RootLayout({
                     <div className={styles.contentContainer}>
                         {
                         }
-                        {//MAKNUTO NA PAGE SA SAMIM PROIZVODIMA
-                            /*<CategorySidebar className={styles.sidebar} initialCategories={initialCategories != undefined ? initialCategories : []}/>*/}
                         <main className={styles.content}>
                             {children}
                         </main>

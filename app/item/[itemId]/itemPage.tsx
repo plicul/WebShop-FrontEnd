@@ -40,7 +40,7 @@ export function ItemPage({ itemParam }: ItemPageProps) {
     return (
         <Container maxWidth="md" className={styles.container}>
             {item ? (
-                <ItemCard item={item} variant={"normal"}/>
+                <ItemCard item={item} variant={"normal"} showError={message => {}} showSuccess={message => {}} showWarning={message => {}}/>
             ) : (
                 <Typography variant="h6">Loading item...</Typography>
             )}

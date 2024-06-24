@@ -4,9 +4,9 @@ import {Account, CategoryComposite, Item, MenuItem} from "@/consts/types";
 import {auth} from "@/auth";
 
 export async function getCategories() {
-    const url: string = API_BASE + "/item-category/tree"
     const categories: CategoryComposite[] | undefined = await fetch(API_BASE + "/item-category/tree", {
-        method: "GET"
+        method: "GET",
+        cache: "no-cache"
     }).then(data => data.json())
         .then((categories: CategoryComposite[]) => {
             return categories

@@ -62,3 +62,18 @@ export interface Price {
     activeFlag: boolean;
     amount: number;
 }
+export interface Cart {
+    id: number | undefined;
+    status: number;
+    cartItems: CartItem[];
+}
+
+export interface CartItem {
+    id?: number;
+    itemId?: number;
+    itemItemTitle?: string;
+    itemImagePath?: string;
+    itemPrice?: number;
+    cartId?: number;
+    amount: number;
+}

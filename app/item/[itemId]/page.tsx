@@ -1,6 +1,6 @@
 import {getAccount, getItem} from "@/lib/DataFetchUtilsServer";
 import AccountPage from "@/app/account/AccountPage";
-import ItemPage from "@/app/item/[itemId]/ItemPage";
+import ItemPage from "@/app/item/[itemId]/itemPage";
 
 export default async function Page({ params }: { params: { itemId: number } }) {
     const item = await getItem(params.itemId)

@@ -3,14 +3,21 @@ import { Button, Card, CardContent, Chip, Tab, Tabs, Typography } from "@mui/mat
 import TextField from "@mui/material/TextField";
 import { ShoppingCartIcon } from "@heroicons/react/16/solid";
 import styles from "@/styles/itemPage.module.scss";
-import { Item, Price } from "@/consts/types";
+import {Cart, CartItem, Item, Price} from "@/consts/types";
+import {API_BASE} from "@/consts/global";
+import {useLocalStorage} from "usehooks-ts";
+import Image from "next/image";
 
 interface ItemCardProps {
     item: Item;
     variant: "normal" | "small";
+    onIconClick?: () => void;
+    showError?: (message: string) => void
+    showSuccess?: (message: string) => void
+    showWarning?: (message: string) => void
 }
 
-export function ItemCard({ item, variant }: ItemCardProps) {
+export function ItemCard({ item, variant, onIconClick,showError,showWarning,showSuccess}: ItemCardProps) {
     const [quantity, setQuantity] = useState<number>(1);
     const [tabValue, setTabValue] = useState<number>(0);
 
@@ -36,9 +43,100 @@ export function ItemCard({ item, variant }: ItemCardProps) {
     const activePrice = item ? getActivePrice(item.prices) : null;
     const lowestPrice = item ? getLowestPrice(item.prices) : null;
 
+    const [cartId, setCartId, removeCartId] = useLocalStorage<number | undefined>('cartId',undefined)
+    async function addToCart() {
+        //provjeri je li postoji cartId
+        //ako postoji retrievaj cart i update
+        //inace napravi novi s ovim itemom
+        if(cartId != undefined){
+            //fetch get
+            const cart: Cart | undefined= await fetch(API_BASE + `/cart/${cartId}`, {
+                method: "GET"
+            }).then(data => data.json())
+                .then((cartTmp: Cart) => {
+                    return cartTmp
+                })
+                .catch(error => {
+                    return undefined
+                })
+            //provjeri je li postoji item koji dodajemo pa mu povecaj amount
+            //inace dodaj novi
+            if(cart != undefined && cart?.cartItems != undefined && cart?.cartItems.find(cartItem => cartItem.itemId === item.id) != undefined){
+                cart.cartItems.find(cartItem => cartItem.itemId === item.id)!.amount += 1
+            }
+            else{
+                const newCartItem : CartItem = {
+                    id: undefined,
+                    itemId: item.id,
+                    itemItemTitle: item.itemTitle,
+                    itemImagePath: item.imagePath,
+                    itemPrice: activePrice?.amount,
+                    cartId: cart?.id,
+                    amount: 1,
+                }
+                cart?.cartItems.push(newCartItem)
+            }
+
+            //put req za update
+            await fetch(API_BASE + `/cart/`,{
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    method: "PUT",
+                    body: JSON.stringify(cart)
+                }
+            ).then( async res => {
+                if(res.status == 200) {
+                    showSuccess && showSuccess("Item Added To Cart!")
+                } else {
+                    let mess = await res.text()
+                    showWarning && showWarning("Item Unable To Be Added To Cart!")
+                }
+            }).catch(error => {
+                showError && showError("ERROR!")
+            })
+        }
+        else {
+            const newCartItem : CartItem = {
+                id: undefined,
+                itemId: item.id,
+                itemItemTitle: item.itemTitle,
+                itemImagePath: item.imagePath,
+                itemPrice: activePrice?.amount,
+                cartId: undefined,
+                amount: 1,
+            }
+            const newCart : Cart ={
+                id:undefined,
+                status: 1,
+                cartItems: [newCartItem]
+            }
+            await fetch(API_BASE + `/cart/`, {
+                method: "POST",
+                body: JSON.stringify(newCart),
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            }).then(data => data.json())
+                .then((cartTmpId: any) => {
+                    setCartId(cartTmpId)
+                    showSuccess && showSuccess("Item Added To Cart!")
+                })
+                .catch(error => {
+                    showError && showError("ERROR!")
+                    return undefined
+                })
+        }
+
+    }
+
     return (
         <Card className={`${styles.card} ${styles[variant]}`}>
-            <img src={item.imagePath} alt={item.itemTitle} className={styles.image} />
+            <Image src={item.imagePath} width={200} height={200} alt={item.itemTitle} className={styles.image} onClick={() => {
+                onIconClick != undefined ? onIconClick()
+                    :
+                    ""
+            }}/>
             <CardContent>
                 <Typography className={styles.title}>
                     {item.itemTitle}
@@ -93,6 +191,7 @@ export function ItemCard({ item, variant }: ItemCardProps) {
                         variant="contained"
                         className={styles.button}
                         startIcon={<ShoppingCartIcon />}
+                        onClick={async () => addToCart()}
                     >
                         Add to Cart
                     </Button>
