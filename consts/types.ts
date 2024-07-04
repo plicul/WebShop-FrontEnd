@@ -22,6 +22,7 @@ export interface Account {
     type?: UserType;
     contact?: Contact;
     address?: Address;
+    cash: number;
 }
 interface UserType {
     //TODO
@@ -48,12 +49,13 @@ interface Address {
 }
 
 export interface Item {
-    id: number;
+    id: number | null;
     itemTitle: string;
     itemDescription: string;
     category: string;
     prices: Price[];
     specification?: string;
+    quantity?: number
     imagePath: string;
 }
 export interface Price {

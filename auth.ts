@@ -1,6 +1,5 @@
 import NextAuth, {DefaultSession} from "next-auth"
 import Credentials from "next-auth/providers/credentials"
-// Your own logic for dealing with plaintext password strings; be careful!
 import {API_BASE} from "@/consts/global";
 import {hashPassword} from "@/lib/auth/utils";
 import {signInSchema} from "@/lib/auth/schemaValidation";
@@ -17,7 +16,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     callbacks:{
         async session({ session, token, user }) {
             //session.expires = token.expirationDate
-            return {...session, ...token}
+            return {...session, ...token, ...user}
         },
         async jwt ({token, user }) {
             return {...token, ...user}

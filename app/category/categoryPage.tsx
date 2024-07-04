@@ -17,7 +17,7 @@ interface CategoryPageProps {
 }
 
 
-export function ItemPage({ initialCategories }: CategoryPageProps) {
+export function CategoryPage({ initialCategories }: CategoryPageProps) {
     const [items, setItems] = useState<Item[] | undefined>([]);
     const router = useRouter()
 
@@ -65,6 +65,6 @@ export function ItemPage({ initialCategories }: CategoryPageProps) {
     );
 }
 
-export default ItemPage;
+export default CategoryPage;
 
 

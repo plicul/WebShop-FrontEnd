@@ -55,6 +55,11 @@ const accountIconPopperMenu: React.FC<MenuDrawerProps> = ({ className, anchorRef
                                         </Link>
                                     </MenuItem>
                                 }
+                                {status == "authenticated" && <MenuItem>
+                                    <Link style={{ textDecoration: 'none', color:"inherit" }} href={`/admin/items`}>
+                                        {"Admin Panel"}
+                                    </Link>
+                                </MenuItem>}
                             </MenuList>
                         </ClickAwayListener>
                     </Paper>

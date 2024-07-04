@@ -8,6 +8,7 @@ import MenuDrawer from "@/components/menu/menuDrawer";
 import AccountIconPopperMenu from "@/components/menu/accountIcon/accountIconPopperMenu";
 import AccountIcon from "@/components/menu/accountIcon/accountIcon";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import {auth} from "@/auth";
 interface ToolbarProps {
     className? : string
     menuListParam: MenuItem[]
@@ -21,9 +22,6 @@ const Toolbar: React.FC<ToolbarProps> = ({ className, menuListParam}) => {
                     <MenuDrawer menuListParam={menuListParam}/>
                     <Typography variant="h6" className={styles.title}>
                         WEB SHOP
-                    </Typography>
-                    <Typography variant="h6" >
-                        SEARCH BAR PLACE HOLDER
                     </Typography>
                     <Link style={{ textDecoration: 'none', color:"inherit" }} href={`/cart`}>
                         <IconButton color="inherit">

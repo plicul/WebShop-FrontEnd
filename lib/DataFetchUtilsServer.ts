@@ -18,6 +18,22 @@ export async function getCategories() {
 
     return categories
 }
+export async function getCategoriesName() {
+    const categories: String[] | undefined = await fetch(API_BASE + "/item-category/", {
+        method: "GET",
+        cache: "no-cache"
+    }).then(data => data.json())
+        .then((categories: String[]) => {
+            return categories
+        })
+        .catch(error => {
+            console.log("error" + error + API_BASE)
+            return undefined
+        })
+
+    return categories
+}
+
 export async function getMenuList() {
     const menuList: MenuItem[] | undefined = await fetch(API_BASE + "/menu/", {
         method: "GET",
